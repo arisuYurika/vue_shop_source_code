@@ -10,8 +10,21 @@
                 <el-button type="danger" @click="logout">退出登录</el-button>
             </el-header>
             <el-container>
-                <!-- 侧边栏区域 -->
-                <el-aside width="200px">Aside</el-aside>
+                <!-- 侧边栏 -->
+                <el-aside width="200px">
+                    <!-- 侧边栏菜单区 -->
+                    <el-menu default-active="2" class="el-menu-vertical-demo"
+                      @open="handleOpen" @close="handleClose"
+                      background-color="RGB(211,220,230)" text-color="#fff"
+                      active-text-color="RGB(179,192,209)">
+                      <el-submenu index="1">
+                        <template slot="title">
+                          <i class="el-icon-location"></i>
+                          <span>导航一</span>
+                        </template>
+                      </el-submenu>
+                    </el-menu>
+                </el-aside>
                 <el-container>
                 <!-- 内容主体区 -->
                 <el-main>
@@ -27,12 +40,18 @@
 <script>
 export default {
     methods: {
-        logout(){
-            // 清空session
-            window.sessionStorage.clear();
-            // 重定向
-            this.$router.push("/login");
-        }
+      logout(){
+        // 清空session
+        window.sessionStorage.clear();
+        // 重定向
+        this.$router.push("/login");
+      },
+      handleOpen(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      handleClose(key, keyPath) {
+        console.log(key, keyPath);
+      }
     }
 }
 </script>

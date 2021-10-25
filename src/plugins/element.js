@@ -13,7 +13,11 @@ import {
     Col,
     Input,
     Icon,
-    Message
+    Message,
+    Menu,
+    Submenu,
+    MenuItem,
+    MenuItemGroup,
 } from 'element-ui'
 
 Vue.use(Button);
@@ -31,3 +35,7 @@ Vue.use(Input);
 Vue.use(Icon);
 //massage需要进行全局挂载
 Vue.prototype.$message = Message;
+Vue.use(Menu);
+Vue.use(Submenu);
+Vue.use(MenuItem);
+Vue.use(MenuItemGroup);
