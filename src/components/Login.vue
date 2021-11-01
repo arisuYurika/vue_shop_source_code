@@ -13,7 +13,7 @@
                 </el-form-item>
                 <!-- 密码 -->
                 <el-form-item prop="password">
-                    <el-input v-model="loginForm.password" type="password" prefix-icon="iconfont icon-3702mima" placeholder="请输入密码"></el-input>
+                    <el-input v-model="loginForm.password" prefix-icon="iconfont icon-3702mima" placeholder="请输入密码" type="password" ></el-input>
                 </el-form-item>
                 <!-- 按钮 -->
                 <el-form-item class="btns">
@@ -63,7 +63,7 @@
                 if(!valid){console.log(valid)}; // 取反为false
                 
                 //3.返回的数据中，只有data是我们需要的数据
-                //4.所以直接在花括号里解构赋值出一个data属性，重命名为res（对象）
+                //4.所以直接在花括号里解构赋值出一个data属性，将data重命名为res（对象）
                 const {data: res} = await this.$http.post('login',this.loginForm);
                 //1. 原本返回值为Promise，可以通过await、async、axxxxx来修饰简化这次操作
                 //2.await只能用在被async（将方法修饰成异步的函数 ）修饰的方法中

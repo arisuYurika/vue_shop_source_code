@@ -11,6 +11,7 @@ import {
     Form,
     FormItem,
     Col,
+    Row,
     Input,
     Icon,
     Message,
@@ -18,7 +19,19 @@ import {
     Submenu,
     MenuItem,
     MenuItemGroup,
+    Breadcrumb,
+    BreadcrumbItem,
+    Card,
+    Pagination,
+    Switch,
+    Tooltip,
+    Dialog,
+    Select,
+    Option
 } from 'element-ui'
+
+//massage需要进行全局挂载
+Vue.prototype.$message = Message;
 
 Vue.use(Button);
 Vue.use(Container);
@@ -31,11 +44,19 @@ Vue.use(TableColumn);
 Vue.use(Form);
 Vue.use(FormItem);
 Vue.use(Col);
+Vue.use(Row);
 Vue.use(Input);
 Vue.use(Icon);
-//massage需要进行全局挂载
-Vue.prototype.$message = Message;
 Vue.use(Menu);
 Vue.use(Submenu);
 Vue.use(MenuItem);
 Vue.use(MenuItemGroup);
+Vue.use(Breadcrumb);
+Vue.use(BreadcrumbItem);
+Vue.use(Card);
+Vue.use(Pagination);
+Vue.use(Switch);
+Vue.use(Tooltip);
+Vue.use(Dialog);
+Vue.use(Select);
+Vue.use(Option);
