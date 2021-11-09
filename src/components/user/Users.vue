@@ -198,7 +198,7 @@
 
                 // 添加用户的表单数据
                 addForm: {
-                    username: 'Misaka',
+                    username: 'Alice',
                     password: '',
                     email: '',
                     mobile: ''
@@ -208,7 +208,7 @@
                 // 添加用户表单的宽度
                 formLabelWidth: '120px',
 
-                // 表单验证
+                // 表单添加验证区
                 addFormRules: {
                     username: [{
                         required: true,
@@ -247,6 +247,7 @@
                         trigger: 'blur'
                     }]
                 },
+                // 表单修改验证区
                 editFormRules: {
                     email: [{
                         required: true,
@@ -271,7 +272,7 @@
             this.getUserList();
         },
         methods: {
-            // 加载列表
+            // 加载用户列表
             async getUserList() {
                 //减少数据复杂程度而使用 async 与 await ，使用后则需要用const接收数据对象
                 //使用 { data:res } 从数据对象身上解构出 data 属性，并重命名为 res
@@ -319,7 +320,7 @@
             // 点击按钮添加新用户
             addUser() {
                 this.$refs.addFormRef.validate(async valid => {
-                    // console.log(valid)
+                    console.log(valid)
                     if (!valid) return
 
                     // 发起添加用户的网络请求
@@ -329,9 +330,9 @@
                     const {
                         data: res
                     } = await this.$http.post('users', this.addForm)
-                        // console.log(res);
-                    if (res.meta.status !== 201) return this.$message.error('添加用户失败！');
-                    this.$message.success('添加用户成功！');
+                    console.log(res);
+                    if (res.meta.status !== 201) return this.$message.error(res.meta.msg);
+                    this.$message.success(res.meta.msg);
                     // 关闭添加用户的对话框
                     this.addDialogVisible = false;
                     // 重新获取用户列表数据
@@ -381,18 +382,18 @@
             },
             // 删除用户信息
             async handleDelete(id) {
-                // console.log(id);
-                const Misaka = await this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+                console.log(id);
+                const confirmResult = await this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).catch(err => err);
-                // console.log(Misaka);
-                if (Misaka !== 'confirm') return this.$message.error('删除失败');
+                console.log(confirmResult);
+                if (confirmResult !== 'confirm') return this.$message.error('删除失败');
                 const {
                     data: res
                 } = await this.$http.delete(`users/${id}`)
-                    // console.log(res);
+                console.log(res);
                 if (res.meta.status !== 200) {
                     return this.$message.error('删除失败');
                 }

@@ -15,6 +15,7 @@ import {
     Input,
     Icon,
     Message,
+    MessageBox,
     Menu,
     Submenu,
     MenuItem,
@@ -27,11 +28,13 @@ import {
     Tooltip,
     Dialog,
     Select,
-    Option
+    Option,
+    Tag
 } from 'element-ui'
 
 //massage需要进行全局挂载
 Vue.prototype.$message = Message;
+Vue.prototype.$confirm = MessageBox.confirm;
 
 Vue.use(Button);
 Vue.use(Container);
@@ -60,3 +63,4 @@ Vue.use(Tooltip);
 Vue.use(Dialog);
 Vue.use(Select);
 Vue.use(Option);
+Vue.use(Tag);
