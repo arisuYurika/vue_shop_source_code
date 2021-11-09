@@ -130,14 +130,14 @@
 
                         <!-- 删除按钮 -->
                         <el-tooltip effect="dark" content="删除" placement="top" :enterable="false">
-                            <el-button icon="el-icon-delete" size="mini" type="danger" @click="">
+                            <el-button icon="el-icon-delete" size="mini" type="danger"
+                                @click="handleDelete(scope.row.id)">
                             </el-button>
                         </el-tooltip>
 
                         <!-- 分配角色按钮 -->
                         <el-tooltip effect="dark" content="角色更改" placement="top-start" :enterable="false">
-                            <el-button icon="el-icon-s-custom" size="mini" type="primary"
-                                @click="handleDelete(scope.row)">
+                            <el-button icon="el-icon-s-custom" size="mini" type="primary" @click="">
                             </el-button>
                         </el-tooltip>
                     </template>
@@ -378,6 +378,27 @@
                     // 提示修改成功
                     this.$message.success(res.meta.msg);
                 })
+            },
+            // 删除用户信息
+            async handleDelete(id) {
+                // console.log(id);
+                const Misaka = await this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).catch(err => err);
+                // console.log(Misaka);
+                if (Misaka !== 'confirm') return this.$message.error('删除失败');
+                const {
+                    data: res
+                } = await this.$http.delete(`users/${id}`)
+                    // console.log(res);
+                if (res.meta.status !== 200) {
+                    return this.$message.error('删除失败');
+                }
+                // 重新获取用户列表数据
+                this.getUserList();
+                this.$message.success('删除成功');
             }
         }
     }
