@@ -28,28 +28,24 @@
 
             </el-row>
 
-            <!-- 添加用户的表单弹窗区 -->
-            <el-dialog title="添加新用户" :visible.sync="addDialogVisible" @close="addDialogClosed">
-                <el-form :model="addForm" status-icon :rules="addFormRules" ref="addFormRef">
+            <!-- 添加用户的表单浮窗区 -->
+            <el-dialog 
+            title="添加新用户" 
+            :visible.sync="addDialogVisible" 
+            @close="addDialogClosed">
+                <el-form :model="addUserForm" status-icon :rules="addUserFormRules" ref="addUserFormRef">
                     <el-form-item label="用户名称" prop="username" :label-width="formLabelWidth">
-                        <el-input v-model="addForm.username" autocomplete="off"></el-input>
+                        <el-input v-model="addUserForm.username" autocomplete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="密码" prop="password" :label-width="formLabelWidth">
-                        <el-input v-model="addForm.password" autocomplete="off"></el-input>
+                        <el-input v-model="addUserForm.password" autocomplete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="邮箱" prop="email" :label-width="formLabelWidth">
-                        <el-input v-model="addForm.email" autocomplete="off"></el-input>
+                        <el-input v-model="addUserForm.email" autocomplete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="手机号码" prop="mobile" :label-width="formLabelWidth">
-                        <el-input v-model="addForm.mobile" autocomplete="off"></el-input>
+                        <el-input v-model="addUserForm.mobile" autocomplete="off"></el-input>
                     </el-form-item>
-
-                    <!-- <el-form-item label="用户角色" prop="username" :label-width="formLabelWidth">
-                        <el-select v-model="addForm.region" placeholder="请选择角色">
-                            <el-option label="超级管理员" value="shanghai"></el-option>
-                            <el-option label="主管" value="beijing"></el-option>
-                        </el-select>
-                    </el-form-item> -->
 
                 </el-form>
                 <!-- 底部按钮区 -->
@@ -61,23 +57,17 @@
 
             <!-- 修改用户的表单弹窗区 -->
             <el-dialog title="修改用户信息" :visible.sync="editDialogVisible">
-                <el-form :model="editForm" status-icon :rules="editFormRules" ref="editFormRef">
+                <el-form :model="editUserForm" status-icon :rules="editUserFormRules" ref="editUserFormRef">
                     <el-form-item label="用户名称" :label-width="formLabelWidth">
-                        <el-input v-model="editForm.username" disabled autocomplete="off"></el-input>
+                        <el-input v-model="editUserForm.username" disabled autocomplete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="邮箱" prop="email" :label-width="formLabelWidth">
-                        <el-input v-model="editForm.email" autocomplete="off"></el-input>
+                        <el-input v-model="editUserForm.email" autocomplete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="手机号码" prop="mobile" :label-width="formLabelWidth">
-                        <el-input v-model="editForm.mobile" autocomplete="off"></el-input>
+                        <el-input v-model="editUserForm.mobile" autocomplete="off"></el-input>
                     </el-form-item>
 
-                    <!-- <el-form-item label="用户角色" prop="username" :label-width="formLabelWidth">
-                        <el-select v-model="addForm.region" placeholder="请选择角色">
-                            <el-option label="超级管理员" value="shanghai"></el-option>
-                            <el-option label="主管" value="beijing"></el-option>
-                        </el-select>
-                    </el-form-item> -->
                 </el-form>
 
                 <!-- 底部按钮区 -->
@@ -154,6 +144,8 @@
 </template>
 <script>
     export default {
+
+        // 数据区
         data() {
             // 验证邮箱的规则（正则） rule规则 value待校验的值 callback回调函数
             var checkEmail = (rule, value, callback) => {
@@ -180,7 +172,7 @@
             };
 
             return {
-                //用户表格页码的参数对象
+                //用户表格页码参数对象
                 queryInfo: {
                     // 列表数据
                     query: '',
@@ -192,32 +184,34 @@
                 userlist: [],
                 total: 4,
 
-                //控制添加用户对话框的显示与隐藏
+                // 控制悬浮对话框的显示与隐藏
+                // 增加用户
                 addDialogVisible: false,
+                // 修改用户
                 editDialogVisible: false,
 
                 // 添加用户的表单数据
-                addForm: {
-                    username: 'Alice',
+                addUserForm: {
+                    username: '',
                     password: '',
                     email: '',
                     mobile: ''
                 },
-                editForm: {},
+                editUserForm: {},
 
                 // 添加用户表单的宽度
                 formLabelWidth: '120px',
 
                 // 表单添加验证区
-                addFormRules: {
+                addUserFormRules: {
                     username: [{
                         required: true,
                         message: '请输入用户名称',
                         trigger: 'blur'
                     }, {
                         min: 3,
-                        max: 8,
-                        message: '长度在 3 到 8 个字符',
+                        max: 13,
+                        message: '长度在 3 到 13 个字符',
                         trigger: 'blur'
                     }],
                     password: [{
@@ -248,7 +242,7 @@
                     }]
                 },
                 // 表单修改验证区
-                editFormRules: {
+                editUserFormRules: {
                     email: [{
                         required: true,
                         message: '请输入邮箱',
@@ -268,26 +262,33 @@
                 }
             }
         },
+
+        // 生命周期创造区
         created() {
             this.getUserList();
         },
+
+        // 方法methods区
         methods: {
-            // 加载用户列表
+
+            // 获取用户列表
             async getUserList() {
-                //减少数据复杂程度而使用 async 与 await ，使用后则需要用const接收数据对象
                 //使用 { data:res } 从数据对象身上解构出 data 属性，并重命名为 res
+                //减少数据复杂程度而使用 async 与 await ，使用后则需要用const接收数据对象
                 const {
                     data: res
-                } = await this.$http.get('users', {
-                        params: this.queryInfo
-                    })
-                    // console.log(res);
+                } = await this.$http.get('users', {params: this.queryInfo})
+                // console.log(res);
+                // 如果返回结果为200以外时则return错误提示
                 if (res.meta.status !== 200) return this.$message.error(res.meta.msg);
+                // 将获取到的数据存储进data中
+                // 用户列表数据
                 this.userlist = res.data.users;
-                // console.log(this.userlist);
+                // 分页数据
                 this.total = res.data.total;
-                // console.log(this.total);
             },
+
+            //分页相关函数
             // 监听 pagesize 改变的事件
             handleSizeChange(newSize) {
                 // console.log(newSize)
@@ -300,7 +301,8 @@
                 this.queryInfo.pagenum = newPage;
                 this.getUserList();
             },
-            // 监听 switch 开关状态
+
+            // 监听更新用户状态的 switch 开关情况
             async userStateChanged(userInfo) {
                 // console.log(userInfo)
                 //同样简化返回的对象，解构data重命名res
@@ -313,25 +315,31 @@
                 }
                 this.$message.success('更新成功')
             },
+
             // 监听添加用户区关闭的事件
             addDialogClosed() {
-                this.$refs.addFormRef.resetFields()
+                this.$refs.addUserFormRef.resetFields()
             },
-            // 点击按钮添加新用户
+
+            // 添加新用户
             addUser() {
-                this.$refs.addFormRef.validate(async valid => {
+                this.$refs.addUserFormRef.validate(async valid => {
+
+                    // valid  该数值用于接收表单预校验是否通过的结果 是个布尔值
                     console.log(valid)
                     if (!valid) return
 
-                    // 发起添加用户的网络请求
-                    // 减少数据复杂程度而使用 async 与 await ，使用后则需要用const接收数据对象
-                    // 使用 { data:res } 从数据对象身上解构出 data 属性，并重命名为 res
-                    // 以 对象 的形式传送数据
+                    // 1.发起添加用户的网络接口请求
+                    // 2.为减少数据复杂程度而使用 async 与 await ，使用后则需要用const接收数据对象
+                    // 3.使用 { data:res } 从数据对象身上解构出 data 属性，并重命名为 res
+                    // 4.以 对象 的形式传送数据
                     const {
                         data: res
-                    } = await this.$http.post('users', this.addForm)
-                    console.log(res);
+                    } = await this.$http.post('users', this.addUserForm)
+                    // console.log(res);
+                    // 返回结果为201之外时则返回错误提示
                     if (res.meta.status !== 201) return this.$message.error(res.meta.msg);
+                    // 成功添加提示
                     this.$message.success(res.meta.msg);
                     // 关闭添加用户的对话框
                     this.addDialogVisible = false;
@@ -339,7 +347,8 @@
                     this.getUserList();
                 })
             },
-            // 展示修改用户信息对话框
+
+            // 展示修改用户信息的悬浮对话框
             async showEditDialog(id) {
                 // console.log(id);
                 this.editDialogVisible = true;
@@ -351,12 +360,13 @@
                     return this.$message.error('查询用户信息失败');
                 }
                 this.$message.success('查询成功')
-                this.editForm = res.data;
-                console.log(this.editForm);
+                this.editUserForm = res.data;
+                console.log(this.editUserForm);
             },
-            // 点击按钮修改用户信息
+
+            // 修改用户信息
             editUser() {
-                this.$refs.editFormRef.validate(async valid => {
+                this.$refs.editUserFormRef.validate(async valid => {
                     console.log(valid)
                     if (!valid) return
                         // 发起添加用户的网络请求
@@ -365,9 +375,9 @@
                         // 以 对象 的形式传送数据
                     const {
                         data: res
-                    } = await this.$http.put(`users/${this.editForm.id}`, {
-                            email: this.editForm.email,
-                            mobile: this.editForm.mobile
+                    } = await this.$http.put(`users/${this.editUserForm.id}`, {
+                            email: this.editUserForm.email,
+                            mobile: this.editUserForm.mobile
                         })
                         // console.log(res);
                     if (res.meta.status !== 200) return this.$message.error('更新用户信息失败！');
@@ -380,26 +390,30 @@
                     this.$message.success(res.meta.msg);
                 })
             },
+
             // 删除用户信息
             async handleDelete(id) {
-                console.log(id);
+                // console.log(id);
+                // 弹窗确认是否删除 获取结果为 confirm 或 cancel
                 const confirmResult = await this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).catch(err => err);
+                // 获取结果为 confirm 或 cancel
                 console.log(confirmResult);
-                if (confirmResult !== 'confirm') return this.$message.error('删除失败');
+                if (confirmResult !== 'confirm') return
+                // 结果为 confirm时进行接口请求
                 const {
                     data: res
                 } = await this.$http.delete(`users/${id}`)
                 console.log(res);
-                if (res.meta.status !== 200) {
-                    return this.$message.error('删除失败');
-                }
+                // 当返回结果为200以外时为失败
+                if (res.meta.status !== 200)return this.$message.error(res.meta.msg);
                 // 重新获取用户列表数据
                 this.getUserList();
-                this.$message.success('删除成功');
+                // 弹出成功显示
+                this.$message.success(res.meta.msg);
             }
         }
     }

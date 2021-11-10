@@ -4,6 +4,7 @@ body,
     margin: 0;
     height: 100%;
     padding: 0;
+    min-width: 1366px;
 }
 
 .Bigbox {
@@ -39,20 +40,4 @@ body,
 .el-menu-item:hover {
     background-color: rgb(245, 188, 233) !important;
     color: rgb(255, 255, 255) !important;
-}
-
-.el-tag {
-    margin: 11px;
-}
-
-.bdtop {
-    border-top: 1px solid #eee;
-}
-
-.bdbottom {
-    border-bottom: 1px solid #eee;
-}
-
-.miniBox {
-    margin: 10px;
 }

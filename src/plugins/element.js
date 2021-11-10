@@ -29,7 +29,8 @@ import {
     Dialog,
     Select,
     Option,
-    Tag
+    Tag,
+    Tree
 } from 'element-ui'
 
 //massage需要进行全局挂载
@@ -64,3 +65,4 @@ Vue.use(Dialog);
 Vue.use(Select);
 Vue.use(Option);
 Vue.use(Tag);
+Vue.use(Tree);
