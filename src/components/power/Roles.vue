@@ -38,14 +38,17 @@
             show-checkbox
             default-expand-all
             node-key="id"
+            ref="treeRef"
             highlight-current
             :props="defaultProps"
             :default-checked-keys="defkeys"
             >
             </el-tree>
             <span slot="footer">
+                
                 <el-button @click="setRightDialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="setRight()">确 定</el-button>
+                
             </span>
         </el-dialog>
 
@@ -151,8 +154,12 @@
                     children: 'children',
                     label: 'authName'
                 },
+
                 //默认选中的节点的id值数组
-                defkeys:[]
+                defkeys:[],
+
+                // 当前即将分配权限的角色id
+                roleId:''
             }
         },
 
@@ -177,7 +184,7 @@
 
             // 监听 添加新角色悬浮窗关闭时 的事件
             addRoleDialogClosed() {
-                console.log('Misaka')
+                // console.log('Misaka')
                 // 当悬浮窗关闭时，清空表单
                 this.$refs.newRoleFormRef.resetFields();
             },
@@ -224,31 +231,45 @@
 
             // 展示分配角色权限情况的悬浮框
             async showSetRightDialog(role){
-                // console.log(id)
+                // console.log(role)
                 // 打开悬浮框
                 this.setRightDialogVisible = true;
+                this.roleId = role.id;
                 // 获得所有权限的数据
                 const {data: res} =await this.$http.get(`rights/tree`)
                 if(res.meta.status !== 200)return this.$message.error(res.meta.msg)
                 this.RightListTree = res.data;
+                // 调用下面的递归方法并传参
                 this.getLeafKeys(role,this.defkeys)
                 // console.log(this.RightListTree)
             },
-            // 通过递归形式，获取角色下所有三级权限的id
+            // 通过递归形式，获取该选中角色下所有三级权限的id，并展示到悬浮窗
             getLeafKeys(node,arr){
                 // 如果当前node节点不包含children属性，则是三级节点
                 if(!node.children)return arr.push(node.id)
                 node.children.forEach(item => this.getLeafKeys(item,arr))
             },
+
             //监听分配权限悬浮框的关闭事件
             setRightDialogClosed(){
-                // 关闭后清空选中
+                // 关闭后清空选中权限
                 this.defkeys = [];
             },
 
-            // 在分配权限悬浮窗中按下确定后，将数据传输给接口进行更改
-            setRight(){
+            // 在分配权限悬浮窗中按下确定后，将数据传输给接口进行权限分配
+            async setRight(){
                 // console.log('Misaka')
+                const keys = [
+                    ...this.$refs.treeRef.
+                    getCheckedKeys(),
+                    ...this.$refs.treeRef.
+                    getHalfCheckedKeys()]
+                const idStr = keys.join(',');
+                
+                const {data:res} = await this.$http.post(`roles/${this.roleId}/rights`,{rids: idStr})
+                if(res.meta.status !== 200)return this.$message.error(res.meta.msg)
+                this.$message.success(res.meta.msg)
+                this.getRolesList();
                 // 关闭权限分配窗口
                 this.setRightDialogVisible = false;
             }

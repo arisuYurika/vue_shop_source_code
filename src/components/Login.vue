@@ -85,7 +85,7 @@
 
 <style lang="less" scoped>
 .login_container {
-    background-color: #4b5b6b;
+    background-color: rgb(255, 244, 248);
     height: 100%;
 }
 .login_box{
