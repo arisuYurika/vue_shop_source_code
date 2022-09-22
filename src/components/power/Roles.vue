@@ -233,7 +233,7 @@
             async showSetRightDialog(role){
                 // console.log(role)
                 // 打开悬浮框
-                this.setRightDialogVisible = true;
+                
                 this.roleId = role.id;
                 // 获得所有权限的数据
                 const {data: res} =await this.$http.get(`rights/tree`)
@@ -242,6 +242,7 @@
                 // 调用下面的递归方法并传参
                 this.getLeafKeys(role,this.defkeys)
                 // console.log(this.RightListTree)
+                this.setRightDialogVisible = true;
             },
             // 通过递归形式，获取该选中角色下所有三级权限的id，并展示到悬浮窗
             getLeafKeys(node,arr){

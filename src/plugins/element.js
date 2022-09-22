@@ -32,7 +32,9 @@ import {
     Tag,
     Tree,
     Descriptions,
-    DescriptionsItem
+    DescriptionsItem,
+    Cascader,
+    Alert
 } from 'element-ui'
 
 //massage需要进行全局挂载
@@ -70,3 +72,5 @@ Vue.use(Tag);
 Vue.use(Tree);
 Vue.use(Descriptions);
 Vue.use(DescriptionsItem);
+Vue.use(Cascader);
+Vue.use(Alert)
