@@ -18,8 +18,9 @@ Vue.component('tree-table', TreeTable)
 //导入 axios
 import axios from 'axios'
 
-// import { config } from 'vue/types/umd'
-
+import lodash from 'lodash'
+import nProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 //为axios设置请求的根路径
 axios.defaults.baseURL = 'https://lianghj.top:8888/api/private/v1/';
@@ -27,15 +28,21 @@ axios.defaults.baseURL = 'https://lianghj.top:8888/api/private/v1/';
 
 // axios请求拦截
 axios.interceptors.request.use(config => {
+    nProgress.start();
     // 为请求头对象，添加Token验证的 Authorization 字段
     config.headers.Authorization = window.sessionStorage.getItem('token');
+    return config;
+})
+
+axios.interceptors.response.use(config => {
+    nProgress.done();
     return config;
 })
 
 //将方法放入vue的prototype中 这样每个 this 都可以直接访问到 $http ,从而发起 ajax 请求
 Vue.prototype.$http = axios;
 
-
+Vue.prototype._ = lodash;
 
 Vue.config.productionTip = false;
 

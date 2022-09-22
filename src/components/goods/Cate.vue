@@ -221,7 +221,7 @@ export default {
                 if (res.meta.status !== 200) return this.$message.error(res.meta.msg);
                 // 将获取到的数据列表存储进 CateList 中
                 this.CateList = res.data.result;
-                console.log(res.data);
+                // console.log(res.data);
                 // 为总数据条数赋值
                 this.total = res.data.total;
         },
@@ -248,13 +248,13 @@ export default {
         },
         // 页码大小变化事件
         handleSizeChange(newSize) {
-            console.log(`每页 ${newSize} 条`); 
+            // console.log(`每页 ${newSize} 条`); 
             this.queryInfo.pagesize = newSize;
             this.getCateList();
         },
         // 页码变化事件
         handleCurrentChange(newPage) {
-            console.log(`当前页: ${newPage}`);
+            // console.log(`当前页: ${newPage}`);
             this.queryInfo.pagenum = newPage;
             this.getCateList();
         },
@@ -265,7 +265,7 @@ export default {
         },
         // 新增分类选择选项发生变化时触发这个函数
         parentCateChanged() {
-            console.log(this.selectedKeys);
+            // console.log(this.selectedKeys);
             if(this.selectedKeys.length > 0){
                 this.addCateForm.cat_pid = this.selectedKeys[
                     this.selectedKeys.length - 1
@@ -283,12 +283,12 @@ export default {
                 type:2
             }})
             if (res.meta.status !== 200) return this.$message.error(res.meta.msg);
-            console.log(res.data);
+            // console.log(res.data);
             this.parentCateList = res.data;
         },
         // 点击确定按钮，添加新的分类
         addCate(){
-            console.log(this.addCateForm);
+            // console.log(this.addCateForm);
             this.$refs.addCateFormRef.validate(async valid =>{
                 if(!valid){return}
                 const {data:res}= await this.$http.post('categories',this.addCateForm)

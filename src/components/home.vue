@@ -1,25 +1,22 @@
 <template>
     <div class="home-container">
 
-        <!-- 盒子一号 -->
         <el-container class="home-container">
 
-            <!-- 头部 -->
             <el-header>
                 <div>
-                    <img src="../assets/heima.png" alt="vue">
+                    <img src="../assets/alice.png" alt="vue">
                     <span>后台管理系统</span>
                 </div>
-                <el-button type="danger" size="small" round @click="logout">退出登录</el-button>
+                <el-button type="danger" size="small" @click="logout" round>退出登录</el-button>
             </el-header>
 
-            <!-- 盒子二号 页面主体区域 -->
             <el-container>
-
                 <!-- 侧边栏 -->
                 <el-aside :width="isCollapse ? '64px':'200px'">
                     <div class="toggle-button" @click="toggleCollapse">|||</div>
-                    <!-- 侧边栏菜单区 -->
+
+                    <!-- 侧边栏菜单 -->
                     <el-menu 
                     class="el-menu-vertical-demo" 
                     background-color="RGB(252,234,241)" 
@@ -30,7 +27,7 @@
                         :router="true" :default-active="activePath">
                         <!-- submenu一级菜单 -->
                         <el-submenu :index="item.path" v-for="item in menulist" :key="item.id">
-                            <!-- 一级菜单的内容渲染区域 -->
+                            <!-- 一级菜单 -->
                             <template slot="title">
                                 <!-- icon图标 -->
                                 <i :class="iconObj[item.id]"></i>
@@ -51,15 +48,12 @@
                     </el-menu>
                 </el-aside>
 
-                <!-- 盒子三号 -->
                 <el-container>
-                    <!-- 内容主体 -->
                     <el-main>
                         <router-view></router-view>
                     </el-main>
-                    <!-- 脚 -->
                     <el-footer>
-                        是jiojio哦
+                        ------------------------页脚
                     </el-footer>
                 </el-container>
             </el-container>
@@ -113,7 +107,7 @@
                 }).catch(() => {
                     this.$message({
                         type: 'info',
-                        message: '取消退出'
+                        message: '已取消退出'
                     });
                 });
             },
@@ -124,7 +118,7 @@
                 if (res.meta.status !== 200) return this.$message.error(res.meta.msg);
                 this.menulist = res.data;
             },
-            //点击按钮，菜单折叠与展开
+            //菜单折叠与展开
             toggleCollapse() {
                 if (!this.isCollapse) {
                     this.isCollapse = true

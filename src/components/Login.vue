@@ -79,7 +79,7 @@
             this.$refs.loginFormRef.validate(async valid=>{
 
                 //没有return，说明结果为true，可以发起接下来的请求（axios）
-                if(!valid){console.log(valid)}; // 取反为false
+                if(!valid){return this.$message.error('登录失败');}
                 
                 //3.返回的数据中，只有data是我们需要的数据
                 //4.所以直接在花括号里解构赋值出一个data属性，将data重命名为res（对象）

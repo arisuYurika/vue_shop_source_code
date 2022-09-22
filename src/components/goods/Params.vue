@@ -64,7 +64,7 @@ export default {
                 if (res.meta.status !== 200) return this.$message.error(res.meta.msg);
                 // 将获取到的数据列表存储进 CateList 中
                 this.CateList = res.data.result;
-                console.log(res.data);
+                // console.log(res.data);
         },
     }
 }

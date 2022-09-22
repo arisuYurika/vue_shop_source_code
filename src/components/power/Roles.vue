@@ -163,12 +163,10 @@
             }
         },
 
-        // 生命周期创造区
         created() {
             this.getRolesList();
         },
 
-        // 方法methods区
         methods: {
             // 获取角色列表
             async getRolesList() {
@@ -176,7 +174,7 @@
                     data: res
                 } = await this.$http.get(`roles`);
                 // console.log(res);
-                if (res.meta.status !== 200) return this.$message.console.error(res.meta.msg);
+                if (res.meta.status !== 200) return this.$message.error(res.meta.msg);
                 // 将获取到的数据存储进data中
                 // 角色数据
                 this.RoleList = res.data;

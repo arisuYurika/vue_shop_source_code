@@ -48,9 +48,7 @@
                 <el-form-item label="手机号码" prop="mobile" :label-width="formLabelWidth">
                     <el-input v-model="editUserForm.mobile" autocomplete="off"></el-input>
                 </el-form-item>
-
             </el-form>
-
             <!-- 底部按钮区 -->
             <div slot="footer" class="dialog-footer">
                 <el-button @click="editDialogVisible = false">取 消</el-button>
@@ -135,33 +133,33 @@
                         <el-switch v-model="scope.row.mg_state" @change="userStateChanged(scope.row)">
                         </el-switch>
                     </template>
-</el-table-column>
+                </el-table-column>
 
-<!-- 操作栏 -->
-<el-table-column label="操作">
-    <template slot-scope="scope">
+                <!-- 操作栏 -->
+                <el-table-column label="操作">
+                    <template slot-scope="scope">
 
-            <!-- 修改按钮 -->
-            <el-tooltip effect="dark" content="修改" placement="top-end" :enterable="false">
-                <el-button icon="el-icon-edit" size="mini" @click="showEditDialog(scope.row.id)">
-                </el-button>
-            </el-tooltip>
+                        <!-- 修改按钮 -->
+                        <el-tooltip effect="dark" content="修改" placement="top-end" :enterable="false">
+                            <el-button icon="el-icon-edit" size="mini" @click="showEditDialog(scope.row.id)">
+                            </el-button>
+                        </el-tooltip>
 
-            <!-- 删除按钮 -->
-            <el-tooltip effect="dark" content="删除" placement="top" :enterable="false">
-                <el-button icon="el-icon-delete" size="mini" type="danger"
-                    @click="handleDelete(scope.row.id)">
-                </el-button>
-            </el-tooltip>
+                        <!-- 删除按钮 -->
+                        <el-tooltip effect="dark" content="删除" placement="top" :enterable="false">
+                            <el-button icon="el-icon-delete" size="mini" type="danger"
+                                @click="handleDelete(scope.row.id)">
+                            </el-button>
+                        </el-tooltip>
 
-            <!-- 分配角色按钮 -->
-            <el-tooltip effect="dark" content="角色更改" placement="top-start" :enterable="false">
-                <el-button icon="el-icon-s-custom" size="mini" type="primary" 
-                @click="setRole(scope.row)">
-                </el-button>
-            </el-tooltip>
-    </template>
-</el-table-column>
+                        <!-- 分配角色按钮 -->
+                        <el-tooltip effect="dark" content="角色更改" placement="top-start" :enterable="false">
+                            <el-button icon="el-icon-s-custom" size="mini" type="primary" 
+                            @click="setRole(scope.row)">
+                            </el-button>
+                        </el-tooltip>
+                    </template>
+                </el-table-column>
 
             </el-table>
 
@@ -302,15 +300,10 @@
                 selectedRoleId:''
             }
         },
-
-        // 生命周期创造区
         created() {
             this.getUserList();
         },
-
-        // 方法methods区
         methods: {
-
             // 获取用户列表
             async getUserList() {
                 //使用 { data:res } 从数据对象身上解构出 data 属性，并重命名为 res
@@ -366,7 +359,7 @@
                 this.$refs.addUserFormRef.validate(async valid => {
 
                     // valid  该数值用于接收表单预校验是否通过的结果 是个布尔值
-                    console.log(valid)
+                    // console.log(valid)
                     if (!valid) return
 
                     // 1.发起添加用户的网络接口请求
@@ -407,7 +400,7 @@
             // 修改用户信息
             editUser() {
                 this.$refs.editUserFormRef.validate(async valid => {
-                    console.log(valid)
+                    // console.log(valid)
                     if (!valid) return
                         // 发起添加用户的网络请求
                         // 减少数据复杂程度而使用 async 与 await ，使用后则需要用const接收数据对象
@@ -441,13 +434,13 @@
                     type: 'warning'
                 }).catch(err => err);
                 // 获取结果为 confirm 或 cancel
-                console.log(confirmResult);
+                // console.log(confirmResult);
                 if (confirmResult !== 'confirm') return
                 // 结果为 confirm时进行接口请求
                 const {
                     data: res
                 } = await this.$http.delete(`users/${id}`)
-                console.log(res);
+                // console.log(res);
                 // 当返回结果为200以外时为失败
                 if (res.meta.status !== 200)return this.$message.error(res.meta.msg);
                 // 重新获取用户列表数据
@@ -477,14 +470,14 @@
 
             // 点击按钮，分配角色
             async saveRoleInfo(){
-                console.log(this.selectedRoleId)
+                // console.log(this.selectedRoleId)
                 // 如果选择框未选择
                 if(!this.selectedRoleId)return this.$message.error('请选择要分配的角色')
 
                 // put数据
                 const{data:res} = await this.$http.put(`users/${this.userInfo.id}/role`,
                     {rid: this.selectedRoleId})
-                console.log(res)
+                // console.log(res)
                 if(res.meta.status !== 200)return this.$message.error(res.meta.msg);
                 this.$message.success(res.meta.msg)
                 this.getUserList();
